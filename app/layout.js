@@ -118,17 +118,21 @@ function SheetDemo() {
           <hr style={{ backgroundColor: '#D9D9D9', height: '2px', width:"100%", border: 'none', marginBottom:'10px'}} />
           <div className='flex mb-[80px] gap-6'>
             <div>
-                <Button
+              <Link href="/cart">
+                  <Button
                       variant="outline"
                       size="lg"
                       className="  w-[130px] h-[45px]   text-[20px] rounded-[30px] border-black mt-8">Cart
-                </Button>
+                  </Button>
+              </Link>
             </div>
-                <Button
+                <Link href="/checkout">
+                  <Button
                       variant="outline"
                       size="lg"
                       className="  w-[200px] h-[45px]   text-[20px] rounded-[30px] border-black mt-8">Checkout
                   </Button>
+                </Link>
             <div>
 
             </div>

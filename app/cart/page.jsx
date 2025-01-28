@@ -51,13 +51,13 @@ export default function Cart() {
               <p className="text-2xl text-[#B88E2F]">Rs. 250,000.00</p>
             </div>
             <div className="flex justify-center mt-[20px]">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-[240px] h-[65px] text-[20px] rounded-[15px] border-black mt-8"
-              >
-                Add To Cart
-              </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-[240px] h-[65px] text-[20px] rounded-[15px] border-black mt-8"
+                >
+                   Add To Cart
+                </Button>
             </div>
           </div>
         </div>
