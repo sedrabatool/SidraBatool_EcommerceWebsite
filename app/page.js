@@ -2,8 +2,23 @@ import Image from "next/image";
 import "./globals.css";
 import Card from '../components/cards.jsx';
 import { Button } from "@/components/ui/button";
+import { client, urlFor } from "./lib/sanity"
 
-export default function Home() {
+async function getData(){
+  const query = `
+  *[_type == 'ecommerceStore'] | order(_createdAt asc){
+  name,
+    description,
+    price,
+    image
+  }`
+  const data = await client.fetch(query)
+  return data;
+}
+export default async function Home() {
+  //await is used with the async functions only 
+  //if we write await then it will wait until the data is fetched
+  const data = await getData()
   return (
     <>
       <div style={{ width: '100%', height: '1000px', position: 'relative' }}>
@@ -81,57 +96,28 @@ export default function Home() {
       </div>
 
       <h1>Our Products</h1>
+      
       <div id="cards-div">
-        <Card 
-          image="/1.png" 
-          name="Syltherine" 
-          description="Stylish cafe chair" 
-          price="Rp 2.500.000" 
-        />
-        <Card 
-          image="/2.png" 
-          name="Leviosa" 
-          description="Stylish cafe chair" 
-          price="Rp 2.500.000" 
-        />
-        <Card 
-          image="/3.png" 
-          name="Lolito" 
-          description="Luxury big sofa" 
-          price="Rp 7.000.000" 
-        />
-        <Card 
-          image="/4.png" 
-          name="Respira" 
-          description="Outdoor bar table and stool" 
-          price="Rp 500.000" 
-        />
+      {data.slice(0, 4).map((item) => (
+              <Card 
+                key={item.name}
+                image={urlFor(item.image).url()} 
+                name={item.name}
+                description={item.description} 
+                price={item.price} 
+              />
+      ))}
       </div>
       <div id="cards-div">
-        <Card 
-          image="/5.png" 
-          name="Syltherine" 
-          description="Stylish cafe chair" 
-          price="Rp 2.500.000" 
-        />
-        <Card 
-          image="/6.png" 
-          name="Modern Lamp" 
-          description="Elegant lighting for home" 
-          price="Rp 1.200.000" 
-        />
-        <Card 
-          image="/7.png" 
-          name="Comfort Sofa" 
-          description="Luxurious and comfortable" 
-          price="Rp 5.400.000" 
-        />
-        <Card 
-          image="/8.png" 
-          name="Comfort Sofa" 
-          description="Luxurious and comfortable" 
-          price="Rp 5.400.000" 
-        />
+            {data.slice(4, 8).map((item) => (
+                    <Card 
+                      key={item.name}
+                      image={urlFor(item.image).url()} 
+                      name={item.name}
+                      description={item.description} 
+                      price={item.price} 
+                    />
+            ))}
       </div>
 
       {/* Show More Button */}

@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
+import StoreProvider from './storeProvider';
+
 
 
 import {
@@ -150,6 +152,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${poppins.variable} antialiased flex flex-col min-h-screen`}
       > 
+      <StoreProvider>
         <div className="Header">
           <div className="div1-nav">
             <div><img src="F.png" alt="Logo" style={{width:"80px" , height:"80px"}} ></img></div>
@@ -257,7 +260,9 @@ export default function RootLayout({ children }) {
         </div>
         <hr style={{ backgroundColor: '#D9D9D9', height: '1px', width:"90%", border: 'none' ,margin: '30px auto 20px'}} />
         <p style={{marginLeft:"100px" ,fontWeight:"500" , marginBottom:"50px"}}>2023 furino. All rights reverved</p>
+      </StoreProvider> 
       </body>
     </html>
   );
 }
+//we wrap server component inside client component

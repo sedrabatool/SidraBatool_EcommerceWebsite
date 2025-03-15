@@ -1,17 +1,30 @@
 
-import '../globals.css';  // If golden.css is in the parent folder
+import '../globals.css';  // If global.css is in the parent folder
 import Card from '../../components/cards.jsx';
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import Head from 'next/head';
+import { client, urlFor } from "../lib/sanity"
 
-export default function Product() {
+export default async function Product() {
     <Head>
         <link
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
           rel="stylesheet"
         />
       </Head>
+    async function getData(){
+      const query = `
+      *[_type == 'ecommerceStore'] | order(_createdAt asc){
+      name,
+        description,
+        price,
+        image
+      }`
+      const data = await client.fetch(query)
+      return data;
+    }
+    const data = await getData()
   return (
     <div>
            <div className='h-[120px] w-full bg-[#F9F1E7] border-1 border-[#F9F1E7] mt-8 flex gap-10'>
@@ -140,30 +153,15 @@ export default function Product() {
                 <hr style={{ backgroundColor: '#D9D9D9', height: '1px', width:"full", border: 'none' ,marginTop:"3%" }} />
                 <p className='font-semibold text-[50px] text-center mt-8'>Related Products</p>
                 <div id="cards-div" className='mb-15'>
-                              <Card 
-                                image="/1.png" 
-                                name="Syltherine" 
-                                description="Stylish cafe chair" 
-                                price="Rp 2.500.000" 
-                              />
-                              <Card 
-                                image="/2.png" 
-                                name="Modern Lamp" 
-                                description="Elegant lighting for home" 
-                                price="Rp 1.200.000" 
-                              />
-                              <Card 
-                                image="/3.png" 
-                                name="Comfort Sofa" 
-                                description="Luxurious and comfortable" 
-                                price="Rp 5.400.000" 
-                              />
-                              <Card 
-                                image="/4.png" 
-                                name="Comfort Sofa" 
-                                description="Luxurious and comfortable" 
-                                price="Rp 5.400.000" 
-                              />
+                              {data.slice(0, 4).map((item) => (
+                                            <Card 
+                                              key={item.name}
+                                              image={urlFor(item.image).url()} 
+                                              name={item.name}
+                                              description={item.description} 
+                                              price={item.price} 
+                                            />
+                                    ))}
                         </div>
                         <div className='flex justify-center item-center'>
                             <Button

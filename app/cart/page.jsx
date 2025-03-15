@@ -1,12 +1,21 @@
+'use client'
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import Black from "@/components/black";
+import Black from "@/components/black"; 
+import { useSelector } from 'react-redux'; // Import useSelector
+import { selectCartItems } from '@/app/lib/store/features/cartSlice/cartSlice';
+
+
 
 export default function Cart() {
+  const items = useSelector(selectCartItems);
+  console.log("hello",items)
   return (
+    
     <div>
+      
       <div className="pl-[100px] mr-[50px]">
         <div className="mt-[40px]">
           <div>
@@ -43,7 +52,7 @@ export default function Cart() {
           <div className="h-[500px] mt-[120px] w-[600px] bg-[#F9F1E7] border border-[#F9F1E7] font-bold mb-20 mr-[50px] pt-[20px] justify-center text-[40px]">
             <p className="text-center mb-[30px]">Cart Totals</p>
             <div className="flex justify-between text-[20px] mb-[20px] pl-[70px] pr-[70px] mt-[100px]">
-              <p className="font-semibold">Subtotal</p>
+              <p className="font-semibold">{items[0]}</p>
               <p className="text-[#9F9F9F]">Rs. 250,000.00</p>
             </div>
             <div className="flex justify-between text-[20px] pl-[70px] pr-[70px]">

@@ -2,10 +2,11 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
-import { faShareNodes} from "@fortawesome/free-solid-svg-icons"; // Import icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import { useAppDispatch } from "@/app/lib/store/hooks";
+import { add } from '@/app/lib/store/features/cartSlice/cartSlice'; 
 
 export default function Card({ image, name, description, price }) {
   const [isOverlayActive, setIsOverlayActive] = useState(false);
@@ -13,16 +14,12 @@ export default function Card({ image, name, description, price }) {
   // Close overlay when clicking anywhere outside the card
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the click was outside the card
       if (!event.target.closest(".card-container")) {
         setIsOverlayActive(false);
       }
     };
 
-    // Add event listener for clicks
     document.addEventListener("click", handleClickOutside);
-
-    // Cleanup event listener on component unmount
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
@@ -83,7 +80,12 @@ export default function Card({ image, name, description, price }) {
     setIsOverlayActive((prev) => !prev); // Toggle overlay state
   };
 
-  const handleButtonClick = (e) => {
+  const dispatch = useAppDispatch();
+
+  // handleButtonClick will only dispatch the action without navigating
+  const handleButtonClick = (e, name, price) => {
+    dispatch(add("hello")); // Dispatch the action with name and price
+    console.log(name, price); // Log for debugging
     e.stopPropagation(); // Prevent the button click from closing the overlay
   };
 
@@ -109,31 +111,36 @@ export default function Card({ image, name, description, price }) {
       {/* Overlay */}
       <div style={styles.overlay}>
         <div>
-          <Link href="/singleProduct">
-            <Button
-               variant="outline"
-               size="sm"
-               className=" text-[#B88E2F] w-[250px] h-[50px] rounded-none text-lg font-semibold"
-               style={{backgroundColor:"#FFFFFF"}}
-               onClick={handleButtonClick} 
-            >
-          
+          <Button
+            variant="outline"
+            size="sm"
+            className=" text-[#B88E2F] w-[250px] h-[50px] rounded-none text-lg font-semibold"
+            style={{ backgroundColor: "#FFFFFF" }}
+            onClick={(e) => handleButtonClick(e, name, price)} // Correctly pass parameters to handleButtonClick
+          >
             Add to cart
-          
           </Button>
-        </Link>
-          <div style={{ display: "flex", gap: "30px" ,justifyContent:"center",marginTop:"20px" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "30px",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
             <div>
               <Button
-                  variant="outline"
-                  size="sm"
-                  className=" text-[#FFFFFF] rounded-none text-lg font-semibold border-none"
-            
-                onClick={handleButtonClick} 
+                variant="outline"
+                size="sm"
+                className=" text-[#FFFFFF] rounded-none text-lg font-semibold border-none"
+                onClick={(e) => handleButtonClick(e, name, price)} // Pass parameters to the handler
               >
                 <div className="flex gap-[5px]">
                   <div>
-                      <FontAwesomeIcon icon={faShareNodes} style={{ color: "#FFFFFF", size:"40px" }} />
+                    <FontAwesomeIcon
+                      icon={faShareNodes}
+                      style={{ color: "#FFFFFF", fontSize: "26px" }}
+                    />
                   </div>
                   <p>Share</p>
                 </div>
@@ -141,15 +148,17 @@ export default function Card({ image, name, description, price }) {
             </div>
             <div>
               <Button
-                  variant="outline"
-                  size="sm"
-                  className=" text-[#FFFFFF] rounded-none text-lg font-semibold border-none"
-            
-                onClick={handleButtonClick} 
+                variant="outline"
+                size="sm"
+                className=" text-[#FFFFFF] rounded-none text-lg font-semibold border-none"
+                onClick={(e) => handleButtonClick(e, name, price)} // Pass parameters to the handler
               >
                 <div className="flex gap-[5px]">
                   <div>
-                    <FontAwesomeIcon icon={faHeart} style={{ color: "#FFFFFF", fontSize: "26px"  }} /> 
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      style={{ color: "#FFFFFF", fontSize: "26px" }}
+                    />
                   </div>
                   <p>Like</p>
                 </div>

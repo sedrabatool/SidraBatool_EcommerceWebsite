@@ -5,13 +5,25 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
-import Link from "next/link";
+import { client, urlFor } from "../lib/sanity"
+import Link from 'next/link';
 
+async function getData(){
+  const query = `
+  *[_type == 'ecommerceStore'] | order(_createdAt asc){
+  name,
+    description,
+    price,
+    image
+  }`
+  const data = await client.fetch(query)
+  return data;
+}
 
-
-
-export default function Shop() {
+export default async function Shop() {
+  const data = await getData()
   return (
+    
     <div>
         <div className="h-[380px] w-full bg-[#F9F1E7] border border-[#F9F1E7] font-bold mb-[1px] flex flex-col items-center justify-center">
             <div className="mb-[10px]"><p className="font-medium text-[60px]">Shop</p></div>
@@ -60,108 +72,48 @@ export default function Shop() {
                 </div>
         </div>
         <div id="cards-div">
-              <Card 
-                image="/1.png" 
-                name="Syltherine" 
-                description="Stylish cafe chair" 
-                price="Rp 2.500.000" 
-              />
-              <Card 
-                image="/2.png" 
-                name="Modern Lamp" 
-                description="Elegant lighting for home" 
-                price="Rp 1.200.000" 
-              />
-              <Card 
-                image="/3.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
-              <Card 
-                image="/4.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
-            </div>
-            <div id="cards-div">
-              <Card 
-                image="/1.png" 
-                name="Syltherine" 
-                description="Stylish cafe chair" 
-                price="Rp 2.500.000" 
-              />
-              <Card 
-                image="/2.png" 
-                name="Modern Lamp" 
-                description="Elegant lighting for home" 
-                price="Rp 1.200.000" 
-              />
-              <Card 
-                image="/3.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
-              <Card 
-                image="/4.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
+          {data.slice(0, 4).map((item) => (
+                        <Card 
+                          key={item.name}
+                          image={urlFor(item.image).url()} 
+                          name={item.name}
+                          description={item.description} 
+                          price={item.price} 
+                        />
+                ))}
+        </div>
+        <div id="cards-div">
+              {data.slice(0, 4).map((item) => (
+                            <Card 
+                              key={item.name}
+                              image={urlFor(item.image).url()} 
+                              name={item.name}
+                              description={item.description} 
+                              price={item.price} 
+                            />
+                    ))}
         </div>
         <div id="cards-div" className='mb-15'>
-              <Card 
-                image="/1.png" 
-                name="Syltherine" 
-                description="Stylish cafe chair" 
-                price="Rp 2.500.000" 
-              />
-              <Card 
-                image="/2.png" 
-                name="Modern Lamp" 
-                description="Elegant lighting for home" 
-                price="Rp 1.200.000" 
-              />
-              <Card 
-                image="/3.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
-              <Card 
-                image="/4.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
+              {data.slice(0, 4).map((item) => (
+                            <Card 
+                              key={item.name}
+                              image={urlFor(item.image).url()} 
+                              name={item.name}
+                              description={item.description} 
+                              price={item.price} 
+                            />
+                    ))}
         </div>
         <div id="cards-div" className='mb-15'>
-              <Card 
-                image="/1.png" 
-                name="Syltherine" 
-                description="Stylish cafe chair" 
-                price="Rp 2.500.000" 
-              />
-              <Card 
-                image="/2.png" 
-                name="Modern Lamp" 
-                description="Elegant lighting for home" 
-                price="Rp 1.200.000" 
-              />
-              <Card 
-                image="/3.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
-              <Card 
-                image="/4.png" 
-                name="Comfort Sofa" 
-                description="Luxurious and comfortable" 
-                price="Rp 5.400.000" 
-              />
+              {data.slice(0, 4).map((item) => (
+                            <Card 
+                              key={item.name}
+                              image={urlFor(item.image).url()} 
+                              name={item.name}
+                              description={item.description} 
+                              price={item.price} 
+                            />
+                    ))}
         </div>
         <div className='flex gap-14 justify-center mt-16'>
             <Link href="/shop">
