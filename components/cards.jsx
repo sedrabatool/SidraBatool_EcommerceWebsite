@@ -7,8 +7,14 @@ import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch } from "@/app/lib/store/hooks";
 import { add } from '@/app/lib/store/features/cartSlice/cartSlice'; 
+import Link from "next/link";
+import { useRouter } from "next/navigation"; 
+
+
 
 export default function Card({ image, name, description, price }) {
+  const router = useRouter(); //get the instance of router
+
   const [isOverlayActive, setIsOverlayActive] = useState(false);
 
   // Close overlay when clicking anywhere outside the card
@@ -81,12 +87,13 @@ export default function Card({ image, name, description, price }) {
   };
 
   const dispatch = useAppDispatch();
-
+  const quantity = 0 ;
   // handleButtonClick will only dispatch the action without navigating
-  const handleButtonClick = (e, name, price) => {
-    dispatch(add("hello")); // Dispatch the action with name and price
-    console.log(name, price); // Log for debugging
+  const handleButtonClick = (e, name, price,image) => {
     e.stopPropagation(); // Prevent the button click from closing the overlay
+    dispatch(add({name,price,image,quantity})); // Dispatch the action with name and price
+    router.push('/singleProduct')
+    
   };
 
   return (
@@ -111,15 +118,15 @@ export default function Card({ image, name, description, price }) {
       {/* Overlay */}
       <div style={styles.overlay}>
         <div>
-          <Button
-            variant="outline"
-            size="sm"
-            className=" text-[#B88E2F] w-[250px] h-[50px] rounded-none text-lg font-semibold"
-            style={{ backgroundColor: "#FFFFFF" }}
-            onClick={(e) => handleButtonClick(e, name, price)} // Correctly pass parameters to handleButtonClick
-          >
-            Add to cart
-          </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className=" text-[#B88E2F] w-[250px] h-[50px] rounded-none text-lg font-semibold"
+                style={{ backgroundColor: "#FFFFFF" }}
+                onClick={(e) => handleButtonClick(e, name, price,image)} 
+              >
+                Add to cart
+              </Button>
           <div
             style={{
               display: "flex",

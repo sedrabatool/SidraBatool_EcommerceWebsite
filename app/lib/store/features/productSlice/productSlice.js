@@ -7,7 +7,7 @@ const isBrowser = typeof window !== 'undefined';
 const loadStateFromLocalStorage = () => {
   if (isBrowser) { // Only access localStorage in the browser
     try {
-      const serializedState = localStorage.getItem('cartState');
+      const serializedState = localStorage.getItem('productState');
       if (serializedState === null) {
         return { items: [] }; // Default state if no saved state exists
       }
@@ -25,7 +25,7 @@ const saveStateToLocalStorage = (state) => {
   if (isBrowser) { // Only access localStorage in the browser
     try {
       const serializedState = JSON.stringify(state);
-      localStorage.setItem('cartState', serializedState);
+      localStorage.setItem('productState', serializedState);
     } catch (error) {
       console.error('Error saving state to local storage:', error);
     }
@@ -34,26 +34,29 @@ const saveStateToLocalStorage = (state) => {
 
 const initialState = loadStateFromLocalStorage();
 
-export const cartSlice = createSlice({
-  name: 'cart',
+export const productSlice = createSlice({
+  name: 'product',
   initialState,
   reducers: {
-    add: (state, action) => {
+    // Add a product to the cart
+    addProduct: (state, action) => {
       state.items.push(action.payload);
       saveStateToLocalStorage(state); // Save state to local storage
     },
-    remove: (state, action) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+    // Remove a specific product from the cart
+    removeProduct: (state, action) => {
+      const itemId = action.payload; // Assuming each item has a unique `id`
+      state.items = state.items.filter((item) => item.id !== itemId);
       saveStateToLocalStorage(state); // Save state to local storage
     },
   },
 });
 
 // Export actions
-export const { add, remove } = cartSlice.actions;
+export const { addProduct, removeProduct } = productSlice.actions;
 
 // Selector to get the items from the state
-export const selectCartItems = (state) => state.cart.items;
+export const selectProductsItems = (state) => state.product.items;
 
 // Export the reducer
-export default cartSlice.reducer;
+export default productSlice.reducer;

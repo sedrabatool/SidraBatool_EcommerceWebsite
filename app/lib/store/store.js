@@ -2,6 +2,9 @@
 
 import { configureStore } from '@reduxjs/toolkit'
 import cartReducer from './features/cartSlice/cartSlice'
+import productReducer from './features/productSlice/productSlice'
+
+
 
 //store is a global varibale 
 //but if store is a global variable it wont work in next js because 
@@ -13,6 +16,7 @@ export const makeStore = () => {
     return configureStore({
         reducer: {
             cart: cartReducer,
+            product: productReducer
         },
         })
 }

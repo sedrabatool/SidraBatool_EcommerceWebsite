@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectProductsItems } from "@/app/lib/store/features/productSlice/productSlice";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -30,6 +32,7 @@ const formSchema = z.object({
 });
 
 export default function Checkout() {
+  const items = useSelector(selectProductsItems);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -39,6 +42,16 @@ export default function Checkout() {
   if (!isClient) {
     return null; // Prevent rendering the component during SSR
   }
+
+  // Calculate subtotal and total
+  const subtotal = items.reduce((acc, item) => {
+    // Remove "Rp" and commas, then convert to a number
+    const price = Number(item.price.replace(/[^0-9]/g, ""));
+    return acc + price * item.count;
+  }, 0);
+
+  const total = subtotal; // Assuming no additional taxes or fees
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row gap-[50px] pl-[150px] pr-[40px] mt-[40px] mb-[200px]">
@@ -73,21 +86,32 @@ export default function Checkout() {
               <p className="font-semibold text-4xl">Subtotal</p>
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="flex">
-              <p className="text-[#9F9F9F] text-2xl">Asgaard sofa</p>
-              <p className="text-2xl ml-2">X 1</p>
-            </div>
-            <div>
-              <p className="text-2xl">Rs. 250,000.00</p>
-            </div>
-          </div>
+
+          {/* Dynamically render product details */}
+          {items.map((item, index) => {
+            // Remove "Rp" and commas, then convert to a number
+            const price = Number(item.price.replace(/[^0-9]/g, ""));
+            const itemSubtotal = price * item.count;
+
+            return (
+              <div key={index} className="flex justify-between">
+                <div className="flex">
+                  <p className="text-[#9F9F9F] text-2xl">{item.name}</p>
+                  <p className="text-2xl ml-2">X {item.count}</p>
+                </div>
+                <div>
+                  <p className="text-2xl">Rp {itemSubtotal.toLocaleString()}</p>
+                </div>
+              </div>
+            );
+          })}
+
           <div className="flex justify-between">
             <div>
               <p className="text-2xl font-normal">Subtotal</p>
             </div>
             <div>
-              <p className="text-2xl">Rs. 250,000.00</p>
+              <p className="text-2xl">Rp {subtotal.toLocaleString()}</p>
             </div>
           </div>
           <div className="flex justify-between">
@@ -95,7 +119,7 @@ export default function Checkout() {
               <p className="text-2xl font-normal">Total</p>
             </div>
             <div>
-              <p className="text-[#B88E2F] font-bold text-4xl">Rs. 250,000.00</p>
+              <p className="text-[#B88E2F] font-bold text-4xl">Rp {total.toLocaleString()}</p>
             </div>
           </div>
           <div><hr className="w-full border-t-2 border-gray-300 mt-4" /></div>
@@ -140,7 +164,8 @@ export default function Checkout() {
             <Button
               variant="outline"
               size="lg"
-              className="  w-[350px] h-[65px]   text-[20px] rounded-[15px] border-black mt-8">Place Order
+              className="w-[350px] h-[65px] text-[20px] rounded-[15px] border-black mt-8">
+              Place Order
             </Button>
           </div>
         </div>
@@ -354,13 +379,7 @@ export function ProfileForm() {
             )}
           />
         </div>
-
-        
-        
       </form>
     </Form>
-    
   );
-  
 }
-
