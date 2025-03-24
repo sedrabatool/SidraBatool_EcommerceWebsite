@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
 import { client, urlFor } from "../lib/sanity"
 import Link from 'next/link';
+import Black from '@/components/black';
 
 async function getData(){
   const query = `
@@ -29,11 +30,14 @@ export default async function Shop() {
             <div className="mb-[10px]"><p className="font-medium text-[60px]">Shop</p></div>
             <div className="flex items-center justify-center gap-[5px]" >
                <pre className=" "> 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className=" text-black border-none w-[100px]  text-2xl font-normal leading-tight">Home {'>'}
-                </Button>
+                <Link href="/">
+                    <Button
+                    
+                      variant="outline"
+                      size="sm"
+                      className=" text-black border-none w-[100px]  text-2xl font-normal leading-tight">Home {'>'}
+                    </Button>
+                </Link>
                </pre>
                <p className="font-normal text-2xl ml-[5px]">Shop</p>
             </div>
@@ -145,7 +149,8 @@ export default async function Shop() {
                 </Button>
             </Link>
         </div>
-        <div className='h-[260px] w-full bg-[#000000] border border-[#000000] mt-[65px] flex gap-[50px] items-center justify-center'>
+        <Black></Black>
+        {/* <div className='h-[260px] w-full bg-[#000000] border border-[#000000] mt-[65px] flex gap-[50px] items-center justify-center'>
             <div className='flex gap-[10px]'>
                 <div><img src="/B1.png" className='h-[100px] w-[100px]'></img></div>
                 <div>
@@ -174,7 +179,7 @@ export default async function Shop() {
                     <div className='text-[#B6B6B6] text-[25px] whitespace-nowrap'>crafted from top materials</div>
                 </div>
             </div>
-        </div>
+        </div> */}
         
 
 

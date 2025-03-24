@@ -94,40 +94,41 @@ function SheetDemo() {
         </SheetHeader>
         <SheetContent
           side="right"
-          className="w-96 z-[100] bg-white h-[870px] w-[560px] fixed right-0 top-0 pl-12 pt-10 overflow-y-auto" // Added overflow-y-auto for scrollbar
+          className="w-96 z-[100] bg-white h-[870px] w-[560px] fixed right-0 top-0 pl-12 pt-10 overflow-y-auto overflow-x-hidden" // Added overflow-y-auto for scrollbar
         >
           <div>
             <p className="font-bold text-4xl">Shopping Cart</p>
           </div>
           <hr style={{ backgroundColor: '#D9D9D9', height: '1px', width: '70%', border: 'none', marginTop: '40px' }} />
+          <div className='flex-grow overflow-y-auto max-h-[500px] pr-4'>
+                {/* Dynamically render cart items */}
+                {items.map((item, index) => (
+                  <div key={index} className="flex mt-12 items-center gap-8">
+                    <div className="h-[120px] w-[120px] bg-[#F9F1E7] border-none rounded-[10px] flex items-center justify-center">
+                      <img src={item.image} alt={item.name} className="h-auto max-h-full w-auto mb-2" />
+                    </div>
+                    <div className="flex flex-col">
+                      <div>
+                        <pre className="font-normal text-2xl">{item.name}</pre>
+                      </div>
+                      <div className="flex mt-2">
+                        <pre className="text-xl">{item.count} X</pre>
+                        <pre className="text-xl text-[#B88E2F]"> {item.price.toLocaleString().replace(/\./g, ',')}</pre>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-none"
+                      onClick={() => handleRemoveProduct(item.id)} // Call handleRemoveProduct with the item's id
+                    >
+                      <img src="cross.png" className="w-8 h-8 ml-[30px]" alt="Remove" />
+                    </Button>
+                  </div>
+                ))}
+          </div>
 
-          {/* Dynamically render cart items */}
-          {items.map((item, index) => (
-            <div key={index} className="flex mt-12 items-center gap-8">
-              <div className="h-[120px] w-[120px] bg-[#F9F1E7] border-none rounded-[10px] flex items-center justify-center">
-                <img src={item.image} alt={item.name} className="h-auto max-h-full w-auto mb-2" />
-              </div>
-              <div className="flex flex-col">
-                <div>
-                  <pre className="font-normal text-2xl">{item.name}</pre>
-                </div>
-                <div className="flex mt-2">
-                  <pre className="text-xl">{item.count} X</pre>
-                  <pre className="text-xl text-[#B88E2F]"> {item.price.toLocaleString().replace(/\./g, ',')}</pre>
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-none"
-                onClick={() => handleRemoveProduct(item.id)} // Call handleRemoveProduct with the item's id
-              >
-                <img src="cross.png" className="w-8 h-8 ml-[30px]" alt="Remove" />
-              </Button>
-            </div>
-          ))}
-
-          <div className="flex gap-[140px] mt-[250px] mb-[25px]">
+          <div className="flex gap-[140px]  absolute bottom-[130px]">
             <div>
               <p className="text-2xl">Subtotal</p>
             </div>
@@ -135,8 +136,8 @@ function SheetDemo() {
               <p className="text-[#B88E2F] text-2xl font-bold">Rs. {subtotal.toLocaleString()}</p>
             </div>
           </div>
-          <hr style={{ backgroundColor: '#D9D9D9', height: '2px', width: '100%', border: 'none', marginBottom: '10px' }} />
-          <div className="flex mb-[80px] gap-6">
+          <hr style={{ backgroundColor: '#D9D9D9', height: '2px', width: '100%', border: 'none', bottom: '100px' , position:'absolute' }} />
+          <div className="flex  gap-6 absolute bottom-[20px]">
             <div>
               <Link href="/cart">
                 <Button

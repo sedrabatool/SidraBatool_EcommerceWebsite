@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectProductsItems } from "@/app/lib/store/features/productSlice/productSlice";
+import Link from 'next/link';
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -61,12 +62,14 @@ export default function Checkout() {
             <p className="font-semibold text-[50px]">Checkout</p>
           </div>
           <div className="flex gap-[5px]">
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-black border-none w-[90px] text-2xl font-medium leading-tight p-0">
-              Home {'>'}
-            </Button>
+            <Link href="/">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-black border-none w-[90px] text-2xl font-medium leading-tight p-0">
+                Home {'>'}
+              </Button>
+            </Link>
             <p className="font-normal text-2xl">Checkout</p>
           </div>
           <div>

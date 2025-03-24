@@ -240,6 +240,34 @@ export default function Product() {
       </div>
       <hr style={{ backgroundColor: '#D9D9D9', height: '1px', width: "full", border: 'none', marginTop: "3%" }} />
       <p className='font-semibold text-[50px] text-center mt-8'>Related Products</p>
+      <div id="cards-div">
+      
+              <Card 
+                image="/1.png"
+                name="Syltherine"
+                description="Stylish cafe chair"
+                price="Rp 2.500.000"
+              />
+              <Card 
+                image="/2.png"
+                name="Leviosa"
+                description="Stylish cafe chair"
+                price="Rp 2.500.000"
+              />
+              <Card 
+                image="/3.png"
+                name="Lolito"
+                description="Luxury big sofa"
+                price="Rp 7.000.000"
+              />
+              <Card 
+                image="/4.png"
+                name="Respira"
+                description="Outdoor bar table and stool"
+                price="Rp 500.000"
+              />
+      </div>
+
       <div className='flex justify-center item-center'>
         <Button
           variant="outline"
